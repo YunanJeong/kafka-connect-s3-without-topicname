@@ -48,4 +48,7 @@ Someone said I can use Blank(" "), Empty String(""), Back Space("\b") in `topic.
 - [kafka-connect-storage-cloud(S3 Sink Connector 소스 코드)](https://github.com/confluentinc/kafka-connect-storage-cloud)
 - [원본 TimeBasedPartitioner의 로직은 커넥트 공통코드에 구현](https://github.com/confluentinc/kafka-connect-storage-common/tree/master/partitioner/src/main/java/io/confluent/connect/storage/partitioner)되어있다.
   - TimeBasedPartitioner는 DefaultPartitioner를 Override하고 있다.
+  - 공식홈페이지에서 기존 Partitioner들을 Override해서 Custom Partitioner를 만들어도 된다고 말한다.
+  - 현재는 TimeBasedPartitioner만 커스텀한 상태이나, 이와 같은 구조로 CustomPartitioner를 입맞에 맞게 만들 수 있다.
+  - 따라서, 커스텀 작업은 개별 프로젝트 OR S3 Sink Connector 소스 코드 기반으로 하되, Override를하기 위한 원본로직 참고는 커넥트 공통코드에서 하면된다.
 - 관련 코드는 모두 Maven프로젝트이며, pom.xml파일에 참조하는 Maven Repository가 기술된다.
