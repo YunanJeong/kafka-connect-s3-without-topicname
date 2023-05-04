@@ -32,11 +32,20 @@ Someone said I can use Blank(" "), Empty String(""), Back Space("\b") in `topic.
     - `{project root path}/out/` 에서 생성된 jar파일을 확인
 
 - ubuntu cli 기준 빌드 방법
-  - `mvn install -f pom.xml -Dcheckstyle.skip -DskipTests`
+  ```
+  # maven 설치
+  sudo apt install mvn
+  
+  # 빌드
+  mvn install -f pom.xml -Dcheckstyle.skip -DskipTests
+  
+  #{project root path}/target/에서 생성된 jar 파일 확인
+  ```
+
 # Reference
 - [참고](https://github.com/confluentinc/kafka-connect-storage-cloud/issues/321)
 - [kafka-connect-storage-common(커넥트 공통코드)](https://github.com/confluentinc/kafka-connect-storage-common)
 - [kafka-connect-storage-cloud(S3 Sink Connector 소스 코드)](https://github.com/confluentinc/kafka-connect-storage-cloud)
 - [원본 TimeBasedPartitioner의 로직은 커넥트 공통코드에 구현](https://github.com/confluentinc/kafka-connect-storage-common/tree/master/partitioner/src/main/java/io/confluent/connect/storage/partitioner)되어있다.
   - TimeBasedPartitioner는 DefaultPartitioner를 Override하고 있다.
-  
+- 관련 코드는 모두 Maven프로젝트이며, pom.xml파일에 참조하는 Maven Repository가 기술된다.
