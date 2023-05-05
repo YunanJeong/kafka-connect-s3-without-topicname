@@ -2,10 +2,8 @@
 TopiclessTimeBasedPartitioner
 
 # Motivation: S3 Object Name
-I want to remove topicname(`<topic>`) from S3 Object Name when using S3 Sink Connector.
-S3 Sink Connector doesn't support it.
-Someone said I can use Blank(" "), Empty String(""), Back Space("\b") in `topic.dir` property of connector's config file. But it also doesn't work.
-`topic.dir` means just `<prefix>`.
+- I want to remove topicname(`<topic>`) from S3 Object Name when using S3 Sink Connector. S3 Sink Connector doesn't support it.
+- Someone said I can use Blank(" "), Empty String(""), Back Space("\b") in `topic.dir` property of connector's config file. But it also doesn't work. `topic.dir` means just `<prefix>`.
 ```
 # TimeBasedPartitioner
 <prefix>/<topic>/<encodedPartition>/<topic>+<kafkaPartition>+<startOffset>.<format>
@@ -17,7 +15,8 @@ Someone said I can use Blank(" "), Empty String(""), Back Space("\b") in `topic.
 
 # How to use
 1. Download topicless-timebasedpartitioner.jar
-2. Place topicless-timebasedpartitioner.jar file in the connect plugin path where the S3 sink connector is already located.
+2. Add the jar file into the connect plugin-path where the [S3 Sink Connector](https://www.confluent.io/hub/confluentinc/kafka-connect-s3) is already located.
+    - The jar file does not contain the S3 sink connector, only the partitioner.
 3. In your S3 sink connector configuration file, Write:
 ```
 "partitioner.class": "io.github.yunanjeong.custom.TopiclessTimeBasedPartitioner"
