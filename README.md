@@ -14,7 +14,7 @@ TopiclessTimeBasedPartitioner
 ```
 
 # How to use
-1. Download topicless-timebasedpartitioner.jar
+1. Download [topicless-timebasedpartitioner.jar](https://github.com/YunanJeong/kafka-connect-s3-without-topicname/releases)
 2. Add the jar file into the connect plugin-path where the [S3 Sink Connector](https://www.confluent.io/hub/confluentinc/kafka-connect-s3) is already located.
     - The jar file does not contain the S3 sink connector, only the partitioner.
 3. In your S3 sink connector configuration file, Write:
