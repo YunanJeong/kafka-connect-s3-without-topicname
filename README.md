@@ -42,10 +42,12 @@ TopiclessTimeBasedPartitioner
   ```
 
 # Reference
-- [참고](https://github.com/confluentinc/kafka-connect-storage-cloud/issues/321)
+- [TimeBasedPartitioner 수정 로직](https://github.com/confluentinc/kafka-connect-storage-cloud/issues/321)
+  - 로직 자체는 간단하지만 빌드 및 배포, kafka 적용 방법 등의 테스트가 필요해서 이 repository를 생성했다.
 - [kafka-connect-storage-common(커넥트 공통코드)](https://github.com/confluentinc/kafka-connect-storage-common)
 - [kafka-connect-storage-cloud(S3 Sink Connector 소스 코드)](https://github.com/confluentinc/kafka-connect-storage-cloud)
-- [원본 TimeBasedPartitioner의 로직은 커넥트 공통코드에 구현](https://github.com/confluentinc/kafka-connect-storage-common/tree/master/partitioner/src/main/java/io/confluent/connect/storage/partitioner)되어있다.
+  - S3 Sink Connector는 커넥트 공통 코드를 라이브러리로 가져와 쓰고 있다.
+- [실제 TimeBasedPartitioner의 로직은 커넥트 공통코드에 구현](https://github.com/confluentinc/kafka-connect-storage-common/tree/master/partitioner/src/main/java/io/confluent/connect/storage/partitioner)되어있다.
   - TimeBasedPartitioner는 DefaultPartitioner를 Override하고 있다.
   - 공식홈페이지에서 기존 Partitioner들을 Override해서 Custom Partitioner를 만들어도 된다고 말한다.
   - 현재는 TimeBasedPartitioner만 커스텀한 상태이나, 이와 같은 구조로 CustomPartitioner를 입맞에 맞게 만들 수 있다.
