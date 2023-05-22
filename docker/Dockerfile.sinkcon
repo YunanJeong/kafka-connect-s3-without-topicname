@@ -1,0 +1,24 @@
+# 싱크 커넥터로 외부로 데이터를 내보내기 위한 이미지
+FROM bitnami/kafka:3.3.2
+
+USER root
+RUN apt-get update \
+    && apt-get install -y curl \
+    && apt-get install -y dnsutils \
+    && apt-get install -y netcat \
+    && apt-get install -y unzip \
+    && apt-get install -y vim \
+    && apt-get install -y iputils-ping \
+    && apt-get install -y jq
+
+RUN mkdir -p /opt/bitnami/kafka/plugins
+
+COPY files/confluentinc-kafka-connect-s3-10.5.0.zip /usr/share/java/confluentinc-kafka-connect-s3.zip
+COPY files/topicless-timebasedpartitioner.jar /usr/share/java/confluentinc-kafka-connect-s3-10.5.0/
+
+# 플러그인 설치
+RUN cd /usr/share/java \
+    && unzip confluentinc-kafka-connect-s3.zip \
+    && rm confluentinc-kafka-connect-s3.zip
+
+CMD /opt/bitnami/kafka/bin/connect-distributed.sh /opt/bitnami/kafka/config/connect-distributed.properties
