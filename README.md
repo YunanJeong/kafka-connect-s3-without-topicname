@@ -1,49 +1,62 @@
 # kafka-connect-s3-without-topicname
+
 TopiclessTimeBasedPartitioner
 
-# Motivation: S3 Object Name
+## Motivation: S3 Object Name
+
 - I want to remove topicname(`<topic>`) from S3 Object Name when using S3 Sink Connector. S3 Sink Connector doesn't support it.
 - Someone said I can use Blank(" "), Empty String(""), Back Space("\b") in `topic.dir` property of connector's config file. But it also doesn't work. `topic.dir` means just `<prefix>`.
-```
+
+```sh
 # TimeBasedPartitioner
 <prefix>/<topic>/<encodedPartition>/<topic>+<kafkaPartition>+<startOffset>.<format>
 ```
-```
+
+```sh
 # TopiclessTimeBasedPartitioner
 <prefix>/<encodedPartition>/<topic>+<kafkaPartition>+<startOffset>.<format>
 ```
 
-# How to use
-1. Install [S3 Sink Connector](https://www.confluent.io/hub/confluentinc/kafka-connect-s3)
-2. Add [topicless-timebasedpartitioner.jar](https://github.com/YunanJeong/kafka-connect-s3-without-topicname/releases) into the S3 sink connector directory in your connect plugin-path
-    - This jar file doesn't contain the S3 sink connector, only the partitioner.
-    
-    ```
-    e.g.)
-    .(connect plugin-path)
-    └── confluentinc-kafka-connect-s3-10.5.0
-        ├── assets
-        ├── doc
-        ├── etc
-        ├── lib
-        ├── manifest.json
-        └── topicless-timebasedpartitioner.jar
-    ```
-3. In your S3 sink connector configuration, Write:
+## How to use
+
+### 1. Install [S3 Sink Connector](https://www.confluent.io/hub/confluentinc/kafka-connect-s3)
+
+### 2. Add [topicless-timebasedpartitioner.jar](https://github.com/YunanJeong/kafka-connect-s3-without-topicname/releases) into the S3 sink connector directory in your connect plugin-path
+
+- This jar file doesn't contain the S3 sink connector, only the partitioner.
+
+```tree
+e.g.
+.(connect plugin-path)
+└── confluentinc-kafka-connect-s3-10.5.0
+    ├── assets
+    ├── doc
+    ├── etc
+    ├── lib
+    ├── manifest.json
+    └── topicless-timebasedpartitioner.jar
 ```
+  
+### 3. In your S3 sink connector configuration, Write:
+
+```properties
 "partitioner.class": "io.github.yunanjeong.custom.TopiclessTimeBasedPartitioner"
 ```
-# How to build sources (Maven)
-- intelliJ 기준, jar 파일 (Artifact) 빌드 방법
-    - `File-Project Structure` 진입
-    - `Project Settings-Artifacts-Add(+)-Jar`에서 `Empty` 선택
-        - `From modules with dependencies`를 선택하는 것이 일반적이지만, 이미 원본 S3 sink connector에 중복되는 dependency가 모두 있으므로 상관없음
-    - `Name`에 Jar파일 이름을 적고, `Output Layout-Available Element`에서 'topicless-timebasedpartitioner' compile output만 jar파일 포함대상으로 선택
-    - 이후 `intellij 메인 창-Build-Build Artifacts ...` 선택하여 빌드를 진행한다.
-    - `{project root path}/out/` 에서 생성된 jar파일을 확인
 
-- ubuntu cli 기준 빌드 방법
-  ```
+## How to build sources (Maven)
+
+### intelliJ 기준, jar 파일 (Artifact) 빌드 방법
+
+- `File-Project Structure` 진입
+- `Project Settings-Artifacts-Add(+)-Jar`에서 `Empty` 선택
+  - `From modules with dependencies`를 선택하는 것이 일반적이지만, 이미 원본 S3 sink connector에 중복되는 dependency가 모두 있으므로 상관없음
+- `Name`에 Jar파일 이름을 적고, `Output Layout-Available Element`에서 'topicless-timebasedpartitioner' compile output만 jar파일 포함대상으로 선택
+- 이후 `intellij 메인 창-Build-Build Artifacts ...` 선택하여 빌드를 진행한다.
+- `{project root path}/out/` 에서 생성된 jar파일을 확인
+
+### ubuntu cli 기준 빌드 방법
+
+  ```sh
   # maven 설치
   sudo apt install mvn
   
@@ -53,7 +66,8 @@ TopiclessTimeBasedPartitioner
   #{project root path}/target/에서 생성된 jar 파일 확인
   ```
 
-# Reference
+## Reference
+
 - [TimeBasedPartitioner 수정 로직](https://github.com/confluentinc/kafka-connect-storage-cloud/issues/321)
   - 로직 자체는 간단하지만 빌드 및 배포, kafka 적용 방법 등의 테스트가 필요해서 이 repository를 생성했다.
 - [kafka-connect-storage-common(커넥트 공통코드)](https://github.com/confluentinc/kafka-connect-storage-common)
