@@ -79,3 +79,6 @@ e.g.
   - 현재는 TimeBasedPartitioner만 커스텀한 상태이나, 이와 같은 구조로 CustomPartitioner를 입맛에 맞게 만들 수 있다.
   - 따라서, 커스텀 작업은 개별 프로젝트 OR S3 Sink Connector 소스 코드 기반으로 하되, Override를하기 위한 원본로직 참고는 커넥트 공통코드에서 하면된다.
 - 관련 코드는 모두 Maven프로젝트이며, pom.xml파일에 Maven Repository로부터 참조하는 Dependency가 기술된다.
+- S3경로 `<prefix>/<topic>/<encodedPartition>`은 kafka-connect-storage-common(커넥트 공통코드)의 `DefaultPartitioner.java`에서 관리된다.
+- S3파일명 `<topic>+<kafkaPartition>+<startOffset>.<format>`은 kafka-connect-storage-cloud(S3 Sink Connector 소스 코드)의 `TopicPartitionWriter.java`에서 관리된다. 파일명은 가급적 안바꾸는게 낫다. topic명, kafkaPartition(파티션넘버), startOffset, format 모두 트러블슈팅에 꼭 필요하다. offset 겹치거나 꼬여도 골치아프다.
+
